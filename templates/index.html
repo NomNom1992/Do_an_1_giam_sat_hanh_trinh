@@ -37,7 +37,7 @@
       }
       
       button {
-        background-color: #4CAF50;
+        background-color: #2655df;
         color: white;
         padding: 10px 30px;
         margin: 8px 0;
@@ -47,7 +47,7 @@
       }
       
       button:hover {
-        background-color: #45a049;
+        background-color: #2654df98;
       }
       
       .imgcontainer {
@@ -90,22 +90,46 @@
         <div class="imgcontainer">
             <h3>ĐĂNG NHẬP</h3>
         </div>
-        <form action="/trangchu" method="post">
-            <div class="container">
-                <label for="uname"><b>Tên đăng nhập</b></label>
-                <input type="text" placeholder="Enter Username" name="uname" required>
+        <div class="container">
+              <form>
+                <label ><b>Tên đăng nhập</b></label>
+                <input type="text" id="username" placeholder="Enter Username" >
               
-                <label for="psw"><b>Mật khẩu</b></label>
-                <input type="password" placeholder="Enter Password" name="psw" required>
+                <label ><b>Mật khẩu</b></label>
+                <input type="password" id="psw" placeholder="Enter Password"  >
+              </form>
               
-                <button type="submit" href="/trangchu">Đăng nhập</button>
+                <button onclick="checkLogin()">Đăng nhập</button>
                 <label>
-                    <input type="checkbox" checked="checked" name="remember"> nhớ mật khẩu
+                    <input type="checkbox" checked="checked"> nhớ mật khẩu
                 </label>
-                <span class="psw">Quên <a href="#">mật khẩu?</a></span>
-            </div>
-        </form>
+                <span class="psw">Quên <a>mật khẩu?</a></span>
+        </div>
     </div>
-    </div>
+    
+    <script>
+      function checkLogin(){
+        const username = document.getElementById('username').value
+        const password = document.getElementById('psw').value
+        fetch('/login', {
+          method: 'POST',
+          headers: {
+          'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ username: username, password: password })
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+            // Login successful, do something
+                console.log(data.message);
+                window.location.href = '/home'
+            } else {
+            // Login failed, do something else
+                console.log(data.message);
+            }
+        })
+      }
+    </script>
 </body>
 </html>
